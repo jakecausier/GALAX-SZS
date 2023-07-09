@@ -8,6 +8,7 @@
 
   const deadline = ref(1689120000);
   const timeRemaining = ref(null);
+  const timeRemainingExact = ref(null);
   const countdown = ref(null);
   const hideOverlay = ref(false);
 
@@ -17,7 +18,7 @@
     updateCountdown(deadlineDate);
     countdown.value = setInterval(() => {
       updateCountdown(deadlineDate);
-    }, (3600 / 2));
+    }, 30000);
   });
 
   const freezePage = () => {
@@ -35,7 +36,13 @@
   };
 
   const updateCountdown = (date) => {
+    const remaining = moment.duration(moment.utc().diff(date));
+    const days = Math.abs(remaining.days());
+    const hours = Math.abs(remaining.hours());
+    const mins = Math.abs(remaining.minutes());
+
     timeRemaining.value = moment.utc().to(date, 'minutes');
+    timeRemainingExact.value = `${days !== 0 ? `${days} days, ` : ''}${hours} hours and ${mins} mins`;
 
     if (moment.utc().isAfter(date)) {
       removeOverlay();
@@ -46,6 +53,7 @@
   <Overlay
     v-if="!hideOverlay"
     :remaining="timeRemaining"
+    :remaining-exact="timeRemainingExact"
   />
   <template v-else>
     <Header />
