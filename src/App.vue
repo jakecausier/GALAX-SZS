@@ -6,7 +6,7 @@
   import Video from './components/Video.vue';
   import Chat from './components/Chat.vue';
 
-  const deadline = ref(1689120000);
+  const deadline = ref(1909881000);
   const timeRemaining = ref(null);
   const timeRemainingExact = ref(null);
   const countdown = ref(null);
@@ -18,7 +18,7 @@
     updateCountdown(deadlineDate);
     countdown.value = setInterval(() => {
       updateCountdown(deadlineDate);
-    }, 30000);
+    }, 15000);
   });
 
   const freezePage = () => {
@@ -41,7 +41,7 @@
     const hours = Math.abs(remaining.hours());
     const mins = Math.abs(remaining.minutes());
 
-    timeRemaining.value = moment.utc().to(date, 'minutes');
+    timeRemaining.value = moment.utc().to(date, true);
     timeRemainingExact.value = `${days !== 0 ? `${days} days, ` : ''}${hours} hours and ${mins} mins`;
 
     if (moment.utc().isAfter(date)) {
